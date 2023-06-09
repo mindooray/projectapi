@@ -9,9 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommentDTO {
-    private long commentId;
-    private String title;
-    private String content;
+public class CommentCheckDTO {
+
     private Long accountId;
 }

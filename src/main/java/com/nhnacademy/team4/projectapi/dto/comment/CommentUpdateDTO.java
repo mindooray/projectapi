@@ -7,11 +7,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class CommentDTO {
-    private long commentId;
+@AllArgsConstructor
+public class CommentUpdateDTO {
     private String title;
     private String content;
-    private Long accountId;
 }
