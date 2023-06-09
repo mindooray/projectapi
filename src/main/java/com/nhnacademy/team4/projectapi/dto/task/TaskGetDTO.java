@@ -1,7 +1,7 @@
 package com.nhnacademy.team4.projectapi.dto.task;
 
 
-import com.nhnacademy.team4.projectapi.entity.type.TaskStatus;
+import com.nhnacademy.team4.projectapi.entity.Task;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,4 +21,18 @@ public class TaskGetDTO {
     private String content;
     private String status;
     private LocalDateTime createDate;
+
+    public static TaskGetDTO taskToTaskGetDTO(Task task){
+        return new TaskGetDTO(
+                task.getTaskId(),
+                task.getAccountId(),
+                task.getProject().getTitle(),
+                task.getTitle(),
+                task.getContent(),
+                task.getStatus().toString(),
+                task.getCreateDate()
+        );
+
+    }
+
 }

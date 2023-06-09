@@ -20,15 +20,19 @@ public class AccountProject {
     @Enumerated(EnumType.STRING)
     private AccountProjectRole role;
 
-}
+    @JoinColumn(name = "project_id")
+    @ManyToOne
+    @MapsId("projectId")
+    private Project project;
 
-@Embeddable
-@Getter
-@Setter
-@EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
-class AccountProjectId implements Serializable {
-    private Long accountId;
-    private Long projectId;
+    @Embeddable
+    @Getter
+    @Setter
+    @EqualsAndHashCode
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AccountProjectId implements Serializable {
+        private Long accountId;
+        private Long projectId;
+    }
 }

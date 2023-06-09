@@ -1,5 +1,6 @@
 package com.nhnacademy.team4.projectapi.dto.milestone;
 
+import com.nhnacademy.team4.projectapi.entity.Milestone;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,5 +23,15 @@ public class MilestoneDTO {
     private LocalDate finishDate;
 
     private boolean deadlineStatus;
+
+    public static MilestoneDTO milestoneToMilestoneDTO(Milestone milestone){
+        return new MilestoneDTO(
+                milestone.getTaskId(),
+                milestone.getName(),
+                milestone.getStartDate(),
+                milestone.getFinishDate(),
+                milestone.getDeadlineStatus()
+        );
+    }
 
 }

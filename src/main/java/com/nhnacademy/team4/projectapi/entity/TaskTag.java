@@ -2,10 +2,7 @@ package com.nhnacademy.team4.projectapi.entity;
 
 import lombok.*;
 
-import javax.persistence.Embeddable;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Getter
@@ -18,7 +15,8 @@ import java.io.Serializable;
 public class TaskTag {
     @EmbeddedId
     private TaskTagId id;
-
+    @ManyToOne
+    @JoinColumn(name = "task_id", insertable = false, updatable = false)
     private Task task;
 }
 

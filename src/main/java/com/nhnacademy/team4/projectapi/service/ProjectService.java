@@ -8,7 +8,7 @@ import com.nhnacademy.team4.projectapi.dto.project.ProjectDTO;
 import com.nhnacademy.team4.projectapi.repository.ProjectRepository;
 
 import java.time.LocalDateTime;
-
+import java.util.List;
 @Service
 public class ProjectService {
 
@@ -41,7 +41,9 @@ public class ProjectService {
 
         return projectRepository.save(existingProject);
     }
-
+    public List<Project> getProjectsByAccountId(Long accountId) {
+        return projectRepository.findAllProjectsByAccountId(accountId);
+    }
 //    public void deleteProject(Long projectId) {
 //        Project existingProject = getProject(projectId);
 //        projectRepository.delete(existingProject);

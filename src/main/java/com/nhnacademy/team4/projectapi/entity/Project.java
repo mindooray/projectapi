@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -31,5 +32,8 @@ public class Project {
 
     @Column(name = "description")
     private String description;
+
+    @OneToMany(mappedBy = "project")
+    private List<AccountProject> accountProjectList;
 
 }
