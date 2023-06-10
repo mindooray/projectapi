@@ -36,7 +36,7 @@ public class MilestoneController {
         return ResponseEntity.ok().body(MilestoneDTO.milestoneToMilestoneDTO(updatedMilestone));
     }
 
-    @DeleteMapping("/{taskId}")
+    @DeleteMapping
     public void deleteMilestone(@PathVariable Long taskId ) {
         milestoneService.deleteMilestone(taskId);
     }

@@ -16,17 +16,23 @@ public class TaskTag {
     @EmbeddedId
     private TaskTagId id;
     @ManyToOne
+    @MapsId("taskId")
     @JoinColumn(name = "task_id", insertable = false, updatable = false)
     private Task task;
-}
 
-@Embeddable
-@Getter
-@Setter
-@EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
-class TaskTagId implements Serializable {
-    private Long taskId;
-    private Long tagId;
+    @ManyToOne
+    @MapsId("tagId")
+    @JoinColumn(name = "tag_id")
+    private Tag tag;
+
+    @Embeddable
+    @Getter
+    @Setter
+    @EqualsAndHashCode
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class TaskTagId implements Serializable {
+        private Long taskId;
+        private Long tagId;
+    }
 }
