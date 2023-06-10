@@ -50,7 +50,7 @@ public class TaskController {
         Task task = taskService.createTask( taskPostDTO,projectId);
         if(taskPostDTO.getMilestone().equals("yes")) {
             MilestoneDTO milestoneDTO = MilestoneDTO.taskPostDtoToMilestoneDTO(taskPostDTO);
-            MilestoneService.createMilestone(milestoneDTO);
+            MilestoneService.createMilestone(milestoneDTO);//
         }
         return ResponseEntity.ok().body(taskPostDTO);
     }
