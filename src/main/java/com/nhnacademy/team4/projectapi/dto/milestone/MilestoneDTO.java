@@ -1,5 +1,6 @@
 package com.nhnacademy.team4.projectapi.dto.milestone;
 
+import com.nhnacademy.team4.projectapi.dto.task.TaskPostDTO;
 import com.nhnacademy.team4.projectapi.entity.Milestone;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,6 +32,15 @@ public class MilestoneDTO {
                 milestone.getStartDate(),
                 milestone.getFinishDate(),
                 milestone.getDeadlineStatus()
+        );
+    }
+    public static MilestoneDTO taskPostDtoToMilestoneDTO(TaskPostDTO taskPostDTO){
+        return new MilestoneDTO(
+                taskPostDTO.getTaskId(),
+                taskPostDTO.getMilestone(),
+                taskPostDTO.getMilestoneStartDate(),
+                taskPostDTO.getMilestoneEndDate(),
+                taskPostDTO.getDeadlineStatus()
         );
     }
 

@@ -16,9 +16,9 @@ public class MilestoneService {
         this.milestoneRepository = milestoneRepository;
     }
 
-    public Milestone createMilestone(Long taskId,MilestoneDTO milestoneDTO) {
+    public Milestone createMilestone(MilestoneDTO milestoneDTO) {
         Milestone milestone = new Milestone();
-        milestone.setTaskId(taskId);
+        milestone.setTaskId(milestoneDTO.getTaskId());
         milestone.setName(milestoneDTO.getName());
         milestone.setStartDate(milestoneDTO.getStartDate());
         milestone.setFinishDate(milestoneDTO.getFinishDate());

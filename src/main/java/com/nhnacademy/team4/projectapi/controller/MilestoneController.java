@@ -20,7 +20,7 @@ public class MilestoneController {
 
     @PostMapping
     public ResponseEntity<MilestoneDTO> createMilestone(@PathVariable Long taskId, @RequestBody MilestoneDTO milestoneDTO) {
-        Milestone createdMilestone = milestoneService.createMilestone(taskId,milestoneDTO);
+        Milestone createdMilestone = milestoneService.createMilestone(milestoneDTO);
         return ResponseEntity.ok().body(MilestoneDTO.milestoneToMilestoneDTO(createdMilestone));
     }
 
