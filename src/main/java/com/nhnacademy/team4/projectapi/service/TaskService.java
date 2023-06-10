@@ -27,8 +27,8 @@ public class TaskService {
         this.projectRepository = projectRepository;
     }
 
-    public Task createTask(TaskPostDTO taskDTO) {
-        Project project = projectRepository.findById(taskDTO.getProjectId())
+    public Task createTask(TaskPostDTO taskDTO, Long projectId) {
+        Project project = projectRepository.findById(projectId)
                 .orElseThrow();
 
         Task task = new Task();

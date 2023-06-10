@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -13,11 +16,15 @@ import lombok.Setter;
 public class TaskPostDTO {
     private long taskId;
     private long accountId;
-    private long projectId;
     private String title;
     private String content;
+    private String milestone;
+    private LocalDate milestoneStartDate;
+    private LocalDate milestoneEndDate;
+    private Boolean deadlineStatus;
+    private List<Long> tags;
 
-    public static TaskPostDTO taskToTaskPostDTO(Task task) {
-        return new TaskPostDTO(task.getTaskId(), task.getAccountId(), task.getProject().getProjectId(), task.getTitle(), task.getContent());
+    public static TaskPostDTO taskToTaskPostDTO(Task task,String milestone,LocalDate milestoneStartDate,LocalDate milestoneEndDate,Boolean deadlineStatus, List<Long> tags) {
+        return new TaskPostDTO(task.getTaskId(), task.getAccountId(), task.getTitle(), task.getContent(), milestone, milestoneStartDate, milestoneEndDate, deadlineStatus,tags);
     }
 }
