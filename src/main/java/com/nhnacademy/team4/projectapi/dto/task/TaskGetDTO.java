@@ -1,6 +1,7 @@
 package com.nhnacademy.team4.projectapi.dto.task;
 
 
+import com.nhnacademy.team4.projectapi.entity.Tag;
 import com.nhnacademy.team4.projectapi.entity.Task;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
