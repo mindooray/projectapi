@@ -10,6 +10,6 @@ import java.util.*;
 
 public interface ProjectRepository extends JpaRepository<Project, Long> {
 
-    @Query("select p from Project p inner join AccountProject ap where ap.id.accountId = ?1")
+    @Query("select p from Project p inner join fetch p.accountProjectList ap where ap.id.accountId = ?1")
     List<Project> findAllProjectsByAccountId(Long accountId);
 }

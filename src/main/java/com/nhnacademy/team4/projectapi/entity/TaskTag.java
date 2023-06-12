@@ -35,4 +35,11 @@ public class TaskTag {
         private Long taskId;
         private Long tagId;
     }
+
+    @Builder
+    public TaskTag(Task task, Tag tag) {
+        this.id = new TaskTagId(task.getTaskId(), tag.getTagId());
+        this.task = task;
+        this.tag = tag;
+    }
 }

@@ -35,4 +35,11 @@ public class AccountProject {
         private Long accountId;
         private Long projectId;
     }
+
+    @Builder
+    public AccountProject(Long accountId, Project project, AccountProjectRole role) {
+        this.id = new AccountProjectId(accountId, project.getProjectId());
+        this.project = project;
+        this.role = role;
+    }
 }

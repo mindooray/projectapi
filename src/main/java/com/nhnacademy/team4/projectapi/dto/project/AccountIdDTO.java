@@ -1,4 +1,4 @@
-package com.nhnacademy.team4.projectapi.dto.tag;
+package com.nhnacademy.team4.projectapi.dto.project;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TagDTO {
-    private Long projectId;
-    private String name;
+public class AccountIdDTO {
+    private Long accountId;
 }

@@ -1,10 +1,14 @@
 package com.nhnacademy.team4.projectapi.controller;
 
+import com.nhnacademy.team4.projectapi.dto.project.AccountIdDTO;
+import com.nhnacademy.team4.projectapi.dto.project.ProjectPostDTO;
+import com.nhnacademy.team4.projectapi.dto.tag.TagDTO;
+import com.nhnacademy.team4.projectapi.dto.tag.TagGetDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.nhnacademy.team4.projectapi.entity.Project;
-import com.nhnacademy.team4.projectapi.dto.project.ProjectDTO;
+import com.nhnacademy.team4.projectapi.dto.project.ProjectGetDTO;
 import com.nhnacademy.team4.projectapi.service.ProjectService;
 import java.util.*;
 @RestController
@@ -18,33 +22,55 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
-    @PostMapping
-    public ResponseEntity<ProjectDTO> createProject(@RequestBody ProjectDTO projectDTO) {
-        Project project = projectService.createProject(projectDTO);
-        return ResponseEntity.ok().body(ProjectDTO.projectToProjectDTO(project));
-    }
 
     @GetMapping("/{projectId}")
-    public ResponseEntity<ProjectDTO> getProject(@PathVariable Long projectId) {
+    public ResponseEntity<ProjectGetDTO> getProject(@PathVariable Long projectId) {
         Project project = projectService.getProject(projectId);
-        return ResponseEntity.ok().body(ProjectDTO.projectToProjectDTO(project));
+        return ResponseEntity.ok().body(ProjectGetDTO.projectToProjectGetDTO(project));
     }
 
     // TODO #1
-    @GetMapping()
-    public ResponseEntity<List<ProjectDTO>> getProjectByAccountId(@RequestParam long accountId){
+    @GetMapping
+    public ResponseEntity<List<ProjectGetDTO>> getProjectByAccountId(@RequestParam long accountId){
         List<Project> projects = projectService.getProjectsByAccountId(accountId);
-        List<ProjectDTO> projectDTOs = new ArrayList<>();
+        List<ProjectGetDTO> projectGetDTOS = new ArrayList<>();
         for(Project project : projects){
-            projectDTOs.add(ProjectDTO.projectToProjectDTO(project));
+            projectGetDTOS.add(ProjectGetDTO.projectToProjectGetDTO(project));
         }
-        return ResponseEntity.ok().body(projectDTOs);
+        return ResponseEntity.ok().body(projectGetDTOS);
+    }
+
+    @GetMapping("/{projectId}/accounts")
+    public ResponseEntity<List<AccountIdDTO>> getAccountIdByProjectId(
+            @PathVariable("projectId") Long projectId
+    ) {
+        return ResponseEntity.ok().body(projectService.getAccountIdByProjectId(projectId));
+    }
+
+    @GetMapping("/{projectId}/tags")
+    public ResponseEntity<List<TagGetDTO>> getProjectTags(
+            @PathVariable("projectId") Long projectId
+    ) {
+        return ResponseEntity.ok().body(projectService.getProjectTags(projectId));
+    }
+
+    @PostMapping
+    public ResponseEntity<ProjectGetDTO> createProject(@RequestBody ProjectPostDTO projectPostDTO) {
+        Project project = projectService.createProject(projectPostDTO);
+        return ResponseEntity.ok().body(ProjectGetDTO.projectToProjectGetDTO(project));
     }
 
     @PutMapping("/{projectId}")
-    public ResponseEntity<ProjectDTO> updateProject(@PathVariable Long projectId, @RequestBody ProjectDTO projectDTO) {
-        Project project = projectService.updateProject(projectId, projectDTO);
-        return ResponseEntity.ok().body(ProjectDTO.projectToProjectDTO(project));
+    public ResponseEntity<ProjectGetDTO> updateProject(@PathVariable Long projectId, @RequestBody ProjectGetDTO projectGetDTO) {
+        Project project = projectService.updateProject(projectId, projectGetDTO);
+        return ResponseEntity.ok().body(ProjectGetDTO.projectToProjectGetDTO(project));
     }
 
+    @PostMapping("/projects/{projectId}/tasks/accounts")
+    public ResponseEntity<Void> addProjectAccount(
+            @PathVariable("projectId") Long projectId,
+            @RequestParam("accountIds") List<Long> accountIds
+    ) {
+        return ResponseEntity.ok().build();
+    }
 }

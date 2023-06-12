@@ -10,13 +10,12 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProjectDTO {
-    private long projectId;
+public class ProjectPostDTO {
+    private long accountId;
     private String title;
-    private String status;
     private String description;
 
-    public static ProjectDTO projectToProjectDTO(Project project) {
-        return new ProjectDTO(project.getProjectId(), project.getTitle(), project.getStatus().toString(), project.getDescription());
+    public static ProjectPostDTO projectToProjectDTO(Project project) {
+        return new ProjectPostDTO(project.getProjectId(), project.getTitle(), project.getDescription());
     }
 }

@@ -47,6 +47,9 @@ public class Task {
     @Column(name = "modify_date")
     private LocalDateTime modifyDate;
 
+    @OneToMany(mappedBy = "task", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<TaskTag> taskTagList;
+
 //    @OneToMany(mappedBy = "task", cascade = CascadeType.REMOVE)
 //    private List<Comment> comment;
 
