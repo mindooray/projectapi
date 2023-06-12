@@ -1,16 +1,18 @@
 package com.nhnacademy.team4.projectapi.controller;
 
 import com.nhnacademy.team4.projectapi.dto.project.AccountIdDTO;
+import com.nhnacademy.team4.projectapi.dto.project.ProjectGetDTO;
 import com.nhnacademy.team4.projectapi.dto.project.ProjectPostDTO;
-import com.nhnacademy.team4.projectapi.dto.tag.TagDTO;
 import com.nhnacademy.team4.projectapi.dto.tag.TagGetDTO;
+import com.nhnacademy.team4.projectapi.entity.Project;
+import com.nhnacademy.team4.projectapi.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.nhnacademy.team4.projectapi.entity.Project;
-import com.nhnacademy.team4.projectapi.dto.project.ProjectGetDTO;
-import com.nhnacademy.team4.projectapi.service.ProjectService;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
 @RestController
 @RequestMapping("/projects")
 public class ProjectController {
@@ -29,7 +31,7 @@ public class ProjectController {
         return ResponseEntity.ok().body(ProjectGetDTO.projectToProjectGetDTO(project));
     }
 
-    // TODO #1
+
     @GetMapping
     public ResponseEntity<List<ProjectGetDTO>> getProjectByAccountId(@RequestParam long accountId){
         List<Project> projects = projectService.getProjectsByAccountId(accountId);
@@ -55,9 +57,9 @@ public class ProjectController {
     }
 
     @PostMapping
-    public ResponseEntity<ProjectGetDTO> createProject(@RequestBody ProjectPostDTO projectPostDTO) {
+    public ResponseEntity<Void> createProject(@RequestBody ProjectPostDTO projectPostDTO) {
         Project project = projectService.createProject(projectPostDTO);
-        return ResponseEntity.ok().body(ProjectGetDTO.projectToProjectGetDTO(project));
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/{projectId}")
@@ -66,7 +68,14 @@ public class ProjectController {
         return ResponseEntity.ok().body(ProjectGetDTO.projectToProjectGetDTO(project));
     }
 
-    @PostMapping("/projects/{projectId}/tasks/accounts")
+    /**
+     * # Todo 1
+     *
+     * @param projectId
+     * @param accountIds
+     * @return
+     */
+    @PostMapping("/{projectId}/tasks/accounts")
     public ResponseEntity<Void> addProjectAccount(
             @PathVariable("projectId") Long projectId,
             @RequestParam("accountIds") List<Long> accountIds

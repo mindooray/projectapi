@@ -30,10 +30,15 @@ public class AccountProject {
     @Setter
     @EqualsAndHashCode
     @NoArgsConstructor
-    @AllArgsConstructor
     public static class AccountProjectId implements Serializable {
         private Long accountId;
         private Long projectId;
+
+        @Builder
+        public AccountProjectId(Long accountId, Long projectId) {
+            this.accountId = accountId;
+            this.projectId = projectId;
+        }
     }
 
     @Builder
