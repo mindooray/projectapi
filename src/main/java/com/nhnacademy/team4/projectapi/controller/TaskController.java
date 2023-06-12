@@ -53,6 +53,18 @@ public class TaskController {
         return taskService.updateTask(taskId, taskDTO);
     }
 
+<<<<<<< HEAD
+=======
+    @PostMapping("/tasks")
+    public ResponseEntity<TaskPostDTO> postTask(@RequestBody TaskPostDTO taskPostDTO,@PathVariable Long projectId){
+        taskService.createTask( taskPostDTO,projectId);
+        if(taskPostDTO.getMilestone().equals("yes")) {
+            MilestoneDTO milestoneDTO = MilestoneDTO.taskPostDtoToMilestoneDTO(taskPostDTO);
+            milestoneService.createMilestone(milestoneDTO);//
+        }
+        return ResponseEntity.ok().body(taskPostDTO);
+    }
+>>>>>>> 0bf2a8cf411c8ac3d9348670ffa1205185897745
 
     @DeleteMapping("/{taskId}")
     public void deleteTask(@PathVariable Long taskId) {
