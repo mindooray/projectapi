@@ -22,22 +22,22 @@ public class CommentController {
     }
 
     @GetMapping("/tasks/{taskId}/comments")
-    public List<Comment> getAllComments() {
-        return commentService.getAllComments();
+    public ResponseEntity< List<Comment>> getAllComments() {
+        return ResponseEntity.ok().body(commentService.getAllComments());
     }
 
     @PostMapping("/tasks/{taskId}/comments")
     public ResponseEntity<CommentDTO> createComment(@RequestBody CommentPostDTO commentPostDTO, @PathVariable Long taskId) {
         Comment createdComment = commentService.createComment(commentPostDTO,taskId);
         CommentDTO commentDTO = new CommentDTO(createdComment.getCommentId(), createdComment.getTitle(), createdComment.getContent(), createdComment.getAccountId());
-        return ResponseEntity.ok(commentDTO);
+        return ResponseEntity.ok().body(commentDTO);
     }
 
     @PatchMapping("/comments/{commentId}")
     public ResponseEntity<CommentUpdateDTO> updateComment(@PathVariable Long commentId, @RequestBody CommentUpdateDTO commentUpdateDTO) {
         Comment updatedComment = commentService.updateComment(commentId, commentUpdateDTO);
         CommentUpdateDTO commentUpdatedDTO =new CommentUpdateDTO(updatedComment.getTitle(), updatedComment.getContent());
-        return ResponseEntity.ok(commentUpdatedDTO);
+        return ResponseEntity.ok().body(commentUpdatedDTO);
     }
 
     @DeleteMapping("/comments/{commentId}")

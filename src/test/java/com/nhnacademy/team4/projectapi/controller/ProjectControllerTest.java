@@ -49,4 +49,44 @@ class ProjectControllerTest {
                 .andExpect(jsonPath("$.title").value("title"))
                 .andExpect(jsonPath("$.description").value("description"));
     }
+
+    @Test
+    void getProjectByAccountId() throws Exception {
+        Project project = Project.builder()
+                .title("title")
+                .status(ProjectStatus.IN_PROGRESS)
+                .description("description")
+                .build();
+        project.setProjectId(1L);
+
+        given(projectService.getProject(any())).willReturn(project);
+
+
+        mockMvc.perform(get("/projects/{projectId}", 1L))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.projectId").value(1L))
+                .andExpect(jsonPath("$.title").value("title"))
+                .andExpect(jsonPath("$.description").value("description"));
+    }
+
+    @Test
+    void getAccountIdByProjectId() {
+    }
+
+    @Test
+    void getProjectTags() {
+    }
+
+    @Test
+    void createProject() {
+    }
+
+    @Test
+    void updateProject() {
+    }
+
+    @Test
+    void addProjectAccount() {
+    }
 }
