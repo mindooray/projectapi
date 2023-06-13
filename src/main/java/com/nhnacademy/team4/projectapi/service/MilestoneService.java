@@ -5,22 +5,19 @@ import com.nhnacademy.team4.projectapi.entity.Milestone;
 import com.nhnacademy.team4.projectapi.entity.Task;
 import com.nhnacademy.team4.projectapi.repository.MilestoneRepository;
 import com.nhnacademy.team4.projectapi.repository.TaskRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class MilestoneService {
 
     private final MilestoneRepository milestoneRepository;
     private final TaskRepository taskRepository;
 
-    @Autowired
-    public MilestoneService(MilestoneRepository milestoneRepository, TaskRepository taskRepository) {
-        this.milestoneRepository = milestoneRepository;
-        this.taskRepository = taskRepository;
-    }
+
 
     @Transactional
     public Milestone createMilestone(MilestoneDTO milestoneDTO) {
@@ -35,6 +32,8 @@ public class MilestoneService {
         return milestoneRepository.save(milestone);
     }
 
+
+    @Transactional
     public Milestone getMilestone(Long getTaskId) {
         return milestoneRepository.findById(getTaskId)
                 .orElseThrow(() -> new IllegalArgumentException("Milestone not found with ID: " + getTaskId));
