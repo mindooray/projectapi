@@ -35,13 +35,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 //@SpringBootTest
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(ProjectController.class)
 class ProjectControllerTest {
     @Autowired
     MockMvc mockMvc;
-@Autowired
+    @Autowired
     ObjectMapper objectMapper;
     @MockBean
     ProjectService projectService;
@@ -202,8 +203,6 @@ class ProjectControllerTest {
                 .andExpect(status().isCreated())
                 .andDo(print());
     }
-
-
 
 
     @Test
