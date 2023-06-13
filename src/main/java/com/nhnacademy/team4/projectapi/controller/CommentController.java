@@ -1,5 +1,6 @@
 package com.nhnacademy.team4.projectapi.controller;
 
+import com.nhnacademy.team4.projectapi.dto.comment.CommentGetDTO;
 import com.nhnacademy.team4.projectapi.dto.comment.CommentPostDTO;
 import com.nhnacademy.team4.projectapi.dto.comment.CommentUpdateDTO;
 import com.nhnacademy.team4.projectapi.entity.Comment;
@@ -22,21 +23,21 @@ public class CommentController {
     }
 
     @GetMapping("/tasks/{taskId}/comments")
-    public ResponseEntity< List<Comment>> getAllComments() {
-        return ResponseEntity.ok().body(commentService.getAllComments());
+    public ResponseEntity<List<CommentGetDTO>> getAllComments(
+            @PathVariable("taskId") Long taskId
+    ) {
+        return ResponseEntity.ok().body(commentService.getTaskComments(taskId));
     }
 
     @PostMapping("/tasks/{taskId}/comments")
     public ResponseEntity<CommentDTO> createComment(@RequestBody CommentPostDTO commentPostDTO, @PathVariable Long taskId) {
-        Comment createdComment = commentService.createComment(commentPostDTO,taskId);
-        CommentDTO commentDTO = new CommentDTO(createdComment.getCommentId(), createdComment.getTitle(), createdComment.getContent(), createdComment.getAccountId());
-        return ResponseEntity.ok().body(commentDTO);
+        return ResponseEntity.ok().body(commentService.createComment(commentPostDTO,taskId));
     }
 
     @PatchMapping("/comments/{commentId}")
     public ResponseEntity<CommentUpdateDTO> updateComment(@PathVariable Long commentId, @RequestBody CommentUpdateDTO commentUpdateDTO) {
         Comment updatedComment = commentService.updateComment(commentId, commentUpdateDTO);
-        CommentUpdateDTO commentUpdatedDTO =new CommentUpdateDTO(updatedComment.getTitle(), updatedComment.getContent());
+        CommentUpdateDTO commentUpdatedDTO =new CommentUpdateDTO(updatedComment.getContent());
         return ResponseEntity.ok().body(commentUpdatedDTO);
     }
 
