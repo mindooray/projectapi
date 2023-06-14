@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/tasks/{taskId}/milestones")
+@RequestMapping("/project-api/tasks/{taskId}/milestones")
 public class MilestoneController {
 
     private final MilestoneService milestoneService;

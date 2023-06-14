@@ -8,9 +8,7 @@ import com.nhnacademy.team4.projectapi.dto.task.TaskUpdateDTO;
 import com.nhnacademy.team4.projectapi.entity.Task;
 import com.nhnacademy.team4.projectapi.service.MilestoneService;
 import com.nhnacademy.team4.projectapi.service.TaskService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/projects/{projectId}/tasks")
+@RequestMapping("/project-api/projects/{projectId}/tasks")
 public class TaskController {
 
     private final TaskService taskService;

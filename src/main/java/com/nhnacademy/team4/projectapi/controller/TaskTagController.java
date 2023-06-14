@@ -1,7 +1,6 @@
 package com.nhnacademy.team4.projectapi.controller;
 
 import com.nhnacademy.team4.projectapi.dto.tag.TagGetDTO;
-import com.nhnacademy.team4.projectapi.dto.tag.TagPostDTO;
 import com.nhnacademy.team4.projectapi.dto.tag.TaskTagPostDTO;
 import com.nhnacademy.team4.projectapi.service.TagService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/project-api")
 public class TaskTagController {
     private final TagService tagService;
 

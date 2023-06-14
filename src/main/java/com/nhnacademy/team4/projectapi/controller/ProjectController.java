@@ -1,15 +1,10 @@
 package com.nhnacademy.team4.projectapi.controller;
 
-import com.nhnacademy.team4.projectapi.dto.project.AccountIdDTO;
-import com.nhnacademy.team4.projectapi.dto.project.ProjectAccountPostDTO;
-import com.nhnacademy.team4.projectapi.dto.project.ProjectGetDTO;
-import com.nhnacademy.team4.projectapi.dto.project.ProjectPostDTO;
-import com.nhnacademy.team4.projectapi.dto.project.ProjectUpdateDTO;
+import com.nhnacademy.team4.projectapi.dto.project.*;
 import com.nhnacademy.team4.projectapi.dto.tag.TagGetDTO;
 import com.nhnacademy.team4.projectapi.entity.Project;
 import com.nhnacademy.team4.projectapi.service.ProjectService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 @RestController
-@RequestMapping("/projects")
+@RequestMapping("/project-api/projects")
 @RequiredArgsConstructor
 public class ProjectController {
 
