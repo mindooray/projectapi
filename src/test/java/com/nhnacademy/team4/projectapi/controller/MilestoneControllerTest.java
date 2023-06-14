@@ -127,9 +127,9 @@ class MilestoneControllerTest {
                 .andDo(print())
                 .andExpect(jsonPath("$.taskId").value(updatedMilestone.getTaskId()))
                 .andExpect(jsonPath("$.name").value(updatedMilestone.getName()))
-                .andExpect(jsonPath("$.deadlineStatus").value(updatedMilestone.getDeadlineStatus()))
                 .andExpect(jsonPath("$.startDate").value(updatedMilestone.getStartDate().toString()))
-                .andExpect(jsonPath("$.finishDate").value(updatedMilestone.getFinishDate().toString()));
+                .andExpect(jsonPath("$.finishDate").value(updatedMilestone.getFinishDate().toString()))
+                .andExpect(jsonPath("$.deadlineStatus").value(updatedMilestone.getDeadlineStatus()));
     }
 
 

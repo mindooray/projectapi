@@ -1,9 +1,7 @@
 package com.nhnacademy.team4.projectapi.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhnacademy.team4.projectapi.dto.project.AccountIdDTO;
-import com.nhnacademy.team4.projectapi.dto.project.ProjectGetDTO;
-import com.nhnacademy.team4.projectapi.dto.project.ProjectPostDTO;
+import com.nhnacademy.team4.projectapi.dto.project.*;
 import com.nhnacademy.team4.projectapi.dto.tag.TagGetDTO;
 import com.nhnacademy.team4.projectapi.entity.AccountProject;
 import com.nhnacademy.team4.projectapi.entity.Project;
@@ -19,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.StringUtils;
 
@@ -221,7 +220,7 @@ class ProjectControllerTest {
         updatedProject.setDescription(projectGetDTO.getDescription());
         updatedProject.setCreateDate(LocalDateTime.now());
 
-        given(projectService.updateProject(anyLong(), any(ProjectGetDTO.class))).willReturn(updatedProject);
+        given(projectService.updateProject(anyLong(), any(ProjectUpdateDTO.class))).willReturn(updatedProject);
 
         // 테스트 수행
         mockMvc.perform(put("/projects/{projectId}", projectId)
@@ -245,10 +244,14 @@ class ProjectControllerTest {
         // Mock 데이터 설정
         Long projectId = 1L;
         List<Long> accountIds = Arrays.asList(1L, 2L, 3L);
+        ProjectAccountPostDTO body = new ProjectAccountPostDTO();
+        ReflectionTestUtils.setField(body, "accountIds", accountIds);
 
         // 테스트 수행
-        mockMvc.perform(post("/projects/{projectId}/tasks/accounts", projectId)
-                        .param("accountIds", StringUtils.collectionToCommaDelimitedString(accountIds)))
+        mockMvc.perform(post("/projects/{projectId}/accounts", projectId)
+                        .param("accountIds", StringUtils.collectionToCommaDelimitedString(accountIds))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(body)))
                 .andDo(print())
                 .andExpect(status().isOk());
     }

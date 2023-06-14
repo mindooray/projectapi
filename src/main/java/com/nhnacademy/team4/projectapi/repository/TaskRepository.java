@@ -1,8 +1,7 @@
 package com.nhnacademy.team4.projectapi.repository;
 
-import com.nhnacademy.team4.projectapi.entity.Tag;
-import org.springframework.data.jpa.repository.JpaRepository;
 import com.nhnacademy.team4.projectapi.entity.Task;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 

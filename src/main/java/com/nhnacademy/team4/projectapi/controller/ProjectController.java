@@ -4,6 +4,7 @@ import com.nhnacademy.team4.projectapi.dto.project.AccountIdDTO;
 import com.nhnacademy.team4.projectapi.dto.project.ProjectAccountPostDTO;
 import com.nhnacademy.team4.projectapi.dto.project.ProjectGetDTO;
 import com.nhnacademy.team4.projectapi.dto.project.ProjectPostDTO;
+import com.nhnacademy.team4.projectapi.dto.project.ProjectUpdateDTO;
 import com.nhnacademy.team4.projectapi.dto.tag.TagGetDTO;
 import com.nhnacademy.team4.projectapi.entity.Project;
 import com.nhnacademy.team4.projectapi.service.ProjectService;
@@ -60,7 +61,7 @@ public class ProjectController {
     }
 
     @PutMapping("/{projectId}")
-    public ResponseEntity<ProjectGetDTO> updateProject(@PathVariable Long projectId, @RequestBody ProjectGetDTO projectGetDTO) {
+    public ResponseEntity<ProjectGetDTO> updateProject(@PathVariable Long projectId, @RequestBody ProjectUpdateDTO projectGetDTO) {
         Project project = projectService.updateProject(projectId, projectGetDTO);
         return ResponseEntity.ok().body(ProjectGetDTO.projectToProjectGetDTO(project));
     }

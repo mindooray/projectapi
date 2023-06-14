@@ -2,8 +2,8 @@ package com.nhnacademy.team4.projectapi.service;
 
 import com.nhnacademy.team4.projectapi.dto.project.AccountIdDTO;
 import com.nhnacademy.team4.projectapi.dto.project.ProjectAccountPostDTO;
-import com.nhnacademy.team4.projectapi.dto.project.ProjectGetDTO;
 import com.nhnacademy.team4.projectapi.dto.project.ProjectPostDTO;
+import com.nhnacademy.team4.projectapi.dto.project.ProjectUpdateDTO;
 import com.nhnacademy.team4.projectapi.dto.tag.TagGetDTO;
 import com.nhnacademy.team4.projectapi.entity.AccountProject;
 import com.nhnacademy.team4.projectapi.entity.Project;
@@ -55,11 +55,11 @@ public class ProjectService {
     }
 
     @Transactional
-    public Project updateProject(Long projectId, ProjectGetDTO projectGetDTO) {
+    public Project updateProject(Long projectId, ProjectUpdateDTO projectUpdateDTO) {
         Project existingProject = getProject(projectId);
-        existingProject.setTitle(projectGetDTO.getTitle());
-//        existingProject.setStatus(ProjectStatus.valueOf(projectDTO.getStatus()));
-        existingProject.setDescription(projectGetDTO.getDescription());
+        existingProject.setTitle(projectUpdateDTO.getTitle());
+        existingProject.setStatus(ProjectStatus.valueOf(projectUpdateDTO.getStatus()));
+        existingProject.setDescription(projectUpdateDTO.getDescription());
 
         return projectRepository.save(existingProject);
     }
@@ -108,10 +108,4 @@ public class ProjectService {
 
         accountProjectRepository.delete(accountProjectId);
     }
-
-//    public void deleteProject(Long projectId) {
-//        Project existingProject = getProject(projectId);
-//        projectRepository.delete(existingProject);
-//    }
-
 }

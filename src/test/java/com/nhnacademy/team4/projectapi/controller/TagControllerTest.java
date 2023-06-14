@@ -74,7 +74,7 @@ class TagControllerTest {
                         .content(objectMapper.writeValueAsString(tagDTO)))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(jsonPath("$.projectId").value(updatedTag.getTagId()))
+                .andExpect(jsonPath("$.tagId").value(updatedTag.getTagId()))
                 .andExpect(jsonPath("$.name").value(updatedTag.getName()));
     }
 
