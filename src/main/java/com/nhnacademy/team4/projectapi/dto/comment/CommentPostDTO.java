@@ -13,6 +13,4 @@ public class CommentPostDTO {
     private String title;
     private String content;
     private Long accountId;
-    private Long commentId;
-
 }

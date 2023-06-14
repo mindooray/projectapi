@@ -26,9 +26,6 @@ public class Comment {
     @Column(name = "account_id")
     private Long accountId;
 
-    @Column(name = "title")
-    private String title;
-
     @Column(name = "content")
     private String content;
 
