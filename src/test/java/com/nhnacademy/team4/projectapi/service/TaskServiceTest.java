@@ -164,12 +164,12 @@ class TaskServiceTest {
     }
 
     @Test
-    void updateTask() {
+    void updateTaskWhenExists() {
         // Mock 데이터 설정
         TaskUpdateDTO taskDTO = new TaskUpdateDTO();
         taskDTO.setTitle("Updated Task");
         taskDTO.setContent("Updated Content");
-        taskDTO.setStatus("COMPLETED");
+        taskDTO.setStatus(String.valueOf(TaskStatus.IN_PROGRESS));
 
         Task existingTask = new Task();
         existingTask.setTaskId(1L);
@@ -186,7 +186,7 @@ class TaskServiceTest {
         updatedTask.setModifyDate(LocalDateTime.now());
 
         // Mock 객체 및 응답 값 설정
-        given(taskService.getTask(anyLong())).willReturn(existingTask);
+        given(taskRepository.findById(anyLong())).willReturn(Optional.of(existingTask));
         given(taskRepository.save(any(Task.class))).willReturn(updatedTask);
 
         // 테스트 수행
@@ -195,6 +195,18 @@ class TaskServiceTest {
         // 결과 검증
         Assertions.assertThat(actual).isEqualTo(updatedTask);
     }
+
+    @Test
+    void updateTaskWhenNotExists() {
+        // Mock 객체 및 응답 값 설정
+        given(taskRepository.findById(anyLong())).willReturn(Optional.empty());
+
+        // 예외 검증
+        Assertions.assertThatThrownBy(() -> taskService.updateTask(1L, new TaskUpdateDTO()))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Task not found with ID: 1");
+    }
+
 
     @Test
     void deleteTask() {

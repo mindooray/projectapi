@@ -59,7 +59,7 @@ public class TaskService {
 
         return taskRepository.save(task);
     }
-
+    @Transactional(readOnly = true)
     public List<TaskTitleListDTO> getAllTask() {
         List<TaskTitleListDTO> taskTitleList = new ArrayList<>();
         List<Task> tasks = taskRepository.findAll();
@@ -68,7 +68,7 @@ public class TaskService {
         }
         return taskTitleList;
     }
-
+    @Transactional(readOnly = true)
     public Task getTask(Long taskId) {
         return taskRepository.findById(taskId)
                 .orElseThrow(() -> new IllegalArgumentException("Task not found with ID: " + taskId));
