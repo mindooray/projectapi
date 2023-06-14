@@ -21,6 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -62,6 +63,7 @@ class TaskControllerTest {
         mockMvc.perform(post("/project-api/projects/{projectId}/tasks", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(taskPostDTO)))
+                .andDo(print())
                 .andExpect(status().isCreated());
     }
 
@@ -86,6 +88,7 @@ class TaskControllerTest {
 
         // 테스트 수행
         mockMvc.perform(get("/project-api/projects/{projectId}/tasks/{taskId}", 1L, taskId))
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.taskId").value(task.getTaskId()))
                 .andExpect(jsonPath("$.title").value(task.getTitle()));
@@ -117,6 +120,7 @@ class TaskControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(taskDTO)))
                 .andExpect(status().isOk())
+                .andDo(print())
                 .andExpect(jsonPath("$.taskId").value(updatedTask.getTaskId()))
                 .andExpect(jsonPath("$.title").value(updatedTask.getTitle()));
     }
