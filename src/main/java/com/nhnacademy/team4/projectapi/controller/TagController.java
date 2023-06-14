@@ -1,6 +1,7 @@
 package com.nhnacademy.team4.projectapi.controller;
 
 import com.nhnacademy.team4.projectapi.dto.tag.TagDTO;
+import com.nhnacademy.team4.projectapi.dto.tag.TagPostDTO;
 import com.nhnacademy.team4.projectapi.entity.Tag;
 import com.nhnacademy.team4.projectapi.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/tags")
+@RequestMapping
 
 public class TagController {
 
@@ -20,20 +21,23 @@ public class TagController {
         this.tagService = tagService;
     }
 
-    @PostMapping
-    public ResponseEntity<Void> createTag(@RequestBody TagDTO tagDTO) {
-        tagService.createTag(tagDTO);
+    @PostMapping("/projects/{projectId}/tags")
+    public ResponseEntity<Void> createTag(
+            @PathVariable("projectId") Long projectId,
+            @RequestBody TagPostDTO tagPostDTO
+    ) {
+        tagService.createProjectTag(projectId, tagPostDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PutMapping("/{tagId}")
-    public ResponseEntity<TagDTO> updateTag(@PathVariable Long tagId, @RequestBody TagDTO tagDTO) {
-        Tag updatedTag = tagService.updateTag(tagId, tagDTO);
+    @PutMapping("/tags/{tagId}")
+    public ResponseEntity<TagDTO> updateTag(@PathVariable Long tagId, @RequestBody TagPostDTO tagPostDTO) {
+        Tag updatedTag = tagService.updateTag(tagId, tagPostDTO);
         TagDTO tagDto= new TagDTO(updatedTag.getTagId(), updatedTag.getName());
         return ResponseEntity.ok().body(tagDto) ;
     }
 
-    @DeleteMapping("/{tagId}")
+    @DeleteMapping("/tags/{tagId}")
     public void deleteTag(@PathVariable Long tagId) {
         tagService.deleteTag(tagId);
     }

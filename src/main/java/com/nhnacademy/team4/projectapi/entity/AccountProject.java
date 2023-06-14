@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "id")
 @Entity
 @Table(name = "account_project")
 @AllArgsConstructor

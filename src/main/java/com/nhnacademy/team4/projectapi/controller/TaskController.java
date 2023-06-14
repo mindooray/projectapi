@@ -8,6 +8,8 @@ import com.nhnacademy.team4.projectapi.dto.task.TaskUpdateDTO;
 import com.nhnacademy.team4.projectapi.entity.Task;
 import com.nhnacademy.team4.projectapi.service.MilestoneService;
 import com.nhnacademy.team4.projectapi.service.TaskService;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,21 +17,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/projects/{projectId}/tasks")
 public class TaskController {
 
     private final TaskService taskService;
     private final MilestoneService milestoneService;
 
-    @Autowired
-    public TaskController(TaskService taskService, MilestoneService milestoneService) {
-        this.taskService = taskService;
-        this.milestoneService = milestoneService;
-    }
-
     @GetMapping
-    public ResponseEntity<List<TaskTitleListDTO>> getAllTask() {
-        return ResponseEntity.ok().body(taskService.getAllTask());
+    public ResponseEntity<List<TaskTitleListDTO>> getAllTask(
+            @PathVariable("projectId") Long projectId
+    ) {
+        return ResponseEntity.ok().body(taskService.getProjectTasks(projectId));
     }
 
     @PostMapping

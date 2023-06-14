@@ -44,4 +44,12 @@ public class Project {
         this.createDate = LocalDateTime.now();
         this.description = description;
     }
+
+    public void addAccountProjects(List<AccountProject> accountProjectList) {
+        this.accountProjectList.addAll(accountProjectList);
+    }
+
+    public void deleteAccountProject(AccountProject accountProject) {
+        accountProjectList.removeIf(a -> a.equals(accountProject));
+    }
 }

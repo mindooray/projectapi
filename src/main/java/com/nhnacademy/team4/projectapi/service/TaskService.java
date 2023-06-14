@@ -56,13 +56,12 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    public List<TaskTitleListDTO> getAllTask() {
-        List<TaskTitleListDTO> taskTitleList = new ArrayList<>();
-        List<Task> tasks = taskRepository.findAll();
-        for (Task task : tasks) {
-            taskTitleList.add(new TaskTitleListDTO(task.getTaskId(), task.getAccountId(), task.getTitle(), task.getProject().getTitle(), task.getStatus().toString()));
-        }
-        return taskTitleList;
+    public List<TaskTitleListDTO> getProjectTasks(Long projectId) {
+        List<Task> taskList = taskRepository.findAllByProject_ProjectId(projectId);
+
+        return taskList.stream()
+                .map(TaskTitleListDTO::toDto)
+                .collect(Collectors.toList());
     }
 
     public Task getTask(Long taskId) {

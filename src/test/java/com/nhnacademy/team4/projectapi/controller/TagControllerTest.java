@@ -2,6 +2,7 @@ package com.nhnacademy.team4.projectapi.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.team4.projectapi.dto.tag.TagDTO;
+import com.nhnacademy.team4.projectapi.dto.tag.TagPostDTO;
 import com.nhnacademy.team4.projectapi.entity.Tag;
 import com.nhnacademy.team4.projectapi.service.TagService;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -39,13 +42,12 @@ class TagControllerTest {
 
         // Mock 객체 및 응답 값 설정
         Tag createdTag = new Tag();
-        createdTag.setTagId(1L);
         createdTag.setName(tagDTO.getName());
 
-        given(tagService.createTag(any(TagDTO.class))).willReturn(createdTag);
+        given(tagService.createProjectTag(anyLong(), any(TagPostDTO.class))).willReturn(createdTag);
 
         // 테스트 수행
-        mockMvc.perform(post("/tags")
+        mockMvc.perform(post("/projects/{projectId}/tags", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(tagDTO)))
                 .andExpect(status().isCreated())
@@ -64,7 +66,7 @@ class TagControllerTest {
         updatedTag.setTagId(tagId);
         updatedTag.setName(tagDTO.getName());
 
-        given(tagService.updateTag(anyLong(), any(TagDTO.class))).willReturn(updatedTag);
+        given(tagService.updateTag(anyLong(), any(TagPostDTO.class))).willReturn(updatedTag);
 
         // 테스트 수행
         mockMvc.perform(put("/tags/{tagId}", tagId)

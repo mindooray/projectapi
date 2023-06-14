@@ -1,11 +1,13 @@
 package com.nhnacademy.team4.projectapi.controller;
 
 import com.nhnacademy.team4.projectapi.dto.project.AccountIdDTO;
+import com.nhnacademy.team4.projectapi.dto.project.ProjectAccountPostDTO;
 import com.nhnacademy.team4.projectapi.dto.project.ProjectGetDTO;
 import com.nhnacademy.team4.projectapi.dto.project.ProjectPostDTO;
 import com.nhnacademy.team4.projectapi.dto.tag.TagGetDTO;
 import com.nhnacademy.team4.projectapi.entity.Project;
 import com.nhnacademy.team4.projectapi.service.ProjectService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,15 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 @RestController
 @RequestMapping("/projects")
+@RequiredArgsConstructor
 public class ProjectController {
 
     private final ProjectService projectService;
-
-    @Autowired
-    public ProjectController(ProjectService projectService) {
-        this.projectService = projectService;
-    }
-
 
     @GetMapping("/{projectId}")
     public ResponseEntity<ProjectGetDTO> getProject(@PathVariable Long projectId) {
@@ -72,14 +69,24 @@ public class ProjectController {
      * # Todo 1
      *
      * @param projectId
-     * @param accountIds
+     * @param projectAccountPostDTO
      * @return
      */
-    @PostMapping("/{projectId}/tasks/accounts")
-    public ResponseEntity<Void> addProjectAccount(
+    @PostMapping("/{projectId}/accounts")
+    public ResponseEntity<Void> addProjectAccounts(
             @PathVariable("projectId") Long projectId,
-            @RequestParam("accountIds") List<Long> accountIds
+            @RequestBody ProjectAccountPostDTO projectAccountPostDTO
     ) {
+        projectService.addProjectAccounts(projectId, projectAccountPostDTO);
         return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{projectId}/accounts/{accountId}")
+    public ResponseEntity<Void> deleteProjectAccount(
+            @PathVariable("projectId") Long projectId,
+            @PathVariable("accountId") Long accountId
+    ) {
+        projectService.deleteAccountProject(projectId, accountId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

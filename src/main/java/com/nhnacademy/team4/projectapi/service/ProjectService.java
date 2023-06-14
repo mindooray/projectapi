@@ -1,19 +1,19 @@
 package com.nhnacademy.team4.projectapi.service;
 
 import com.nhnacademy.team4.projectapi.dto.project.AccountIdDTO;
+import com.nhnacademy.team4.projectapi.dto.project.ProjectAccountPostDTO;
 import com.nhnacademy.team4.projectapi.dto.project.ProjectGetDTO;
 import com.nhnacademy.team4.projectapi.dto.project.ProjectPostDTO;
-import com.nhnacademy.team4.projectapi.dto.tag.TagDTO;
 import com.nhnacademy.team4.projectapi.dto.tag.TagGetDTO;
 import com.nhnacademy.team4.projectapi.entity.AccountProject;
 import com.nhnacademy.team4.projectapi.entity.Project;
 import com.nhnacademy.team4.projectapi.entity.Tag;
 import com.nhnacademy.team4.projectapi.entity.type.AccountProjectRole;
 import com.nhnacademy.team4.projectapi.entity.type.ProjectStatus;
+import com.nhnacademy.team4.projectapi.repository.AccountProjectRepository;
 import com.nhnacademy.team4.projectapi.repository.ProjectRepository;
 import com.nhnacademy.team4.projectapi.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +29,7 @@ public class ProjectService {
 
     private final ProjectRepository projectRepository;
     private final TagRepository tagRepository;
+    private final AccountProjectRepository accountProjectRepository;
 
     @Transactional
     public Project createProject(ProjectPostDTO projectPostDTO) {
@@ -81,6 +82,31 @@ public class ProjectService {
         return tagList.stream()
                 .map(t -> new TagGetDTO(t.getTagId(), t.getName()))
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void addProjectAccounts(Long projectId, ProjectAccountPostDTO projectAccountPostDTO) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow();
+        List<Long> accountIds = projectAccountPostDTO.getAccountIds();
+
+        List<AccountProject> accountProjectList = accountIds.stream()
+                .map(a -> AccountProject.builder()
+                        .accountId(a)
+                        .project(project)
+                        .role(AccountProjectRole.MEMBER)
+                        .build())
+                .collect(Collectors.toList());
+
+        project.addAccountProjects(accountProjectList);
+    }
+
+    @Transactional
+    public void deleteAccountProject(Long projectId, Long accountId) {
+        AccountProject accountProjectId = accountProjectRepository.findById(new AccountProject.AccountProjectId(accountId, projectId))
+                .orElseThrow();
+
+        accountProjectRepository.delete(accountProjectId);
     }
 
 //    public void deleteProject(Long projectId) {
