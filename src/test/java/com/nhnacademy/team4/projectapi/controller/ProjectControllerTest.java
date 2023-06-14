@@ -61,7 +61,7 @@ class ProjectControllerTest {
         given(projectService.getProject(any())).willReturn(project);
 
 
-        mockMvc.perform(get("/projects/{projectId}", 1L))
+        mockMvc.perform(get("/project-api/projects/{projectId}", 1L))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(jsonPath("$.projectId").value(1L))
@@ -107,7 +107,7 @@ class ProjectControllerTest {
         given(projectService.getProjectsByAccountId(anyLong())).willReturn(projects);
 
         // API 호출 및 응답 검증
-        mockMvc.perform(get("/projects")
+        mockMvc.perform(get("/project-api/projects")
                         .param("accountId", "1"))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -140,7 +140,7 @@ class ProjectControllerTest {
 
         given(projectService.getAccountIdByProjectId(anyLong())).willReturn(accountIds);
 
-        mockMvc.perform(get("/projects/{projectId}/accounts", 1L))
+        mockMvc.perform(get("/project-api/projects/{projectId}/accounts", 1L))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(jsonPath("$[0].accountId").value(1L));
@@ -167,7 +167,7 @@ class ProjectControllerTest {
         given(projectService.getProjectTags(projectId)).willReturn(tags);
 
         // 테스트 수행
-        mockMvc.perform(get("/projects/{projectId}/tags", projectId))
+        mockMvc.perform(get("/project-api/projects/{projectId}/tags", projectId))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(jsonPath("$[0].tagId").value(tag1.getTagId()))
@@ -196,7 +196,7 @@ class ProjectControllerTest {
         given(projectService.createProject(any(ProjectPostDTO.class))).willReturn(project);
 
         // 테스트 수행
-        mockMvc.perform(post("/projects")
+        mockMvc.perform(post("/project-api/projects")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(projectPostDTO)))
                 .andExpect(status().isCreated())
@@ -223,7 +223,7 @@ class ProjectControllerTest {
         given(projectService.updateProject(anyLong(), any(ProjectUpdateDTO.class))).willReturn(updatedProject);
 
         // 테스트 수행
-        mockMvc.perform(put("/projects/{projectId}", projectId)
+        mockMvc.perform(put("/project-api/projects/{projectId}", projectId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(projectGetDTO)))
                 .andExpect(status().isOk())
@@ -248,7 +248,7 @@ class ProjectControllerTest {
         ReflectionTestUtils.setField(body, "accountIds", accountIds);
 
         // 테스트 수행
-        mockMvc.perform(post("/projects/{projectId}/accounts", projectId)
+        mockMvc.perform(post("/project-api/projects/{projectId}/accounts", projectId)
                         .param("accountIds", StringUtils.collectionToCommaDelimitedString(accountIds))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(body)))

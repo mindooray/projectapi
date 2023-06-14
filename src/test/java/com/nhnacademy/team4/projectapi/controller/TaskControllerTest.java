@@ -2,7 +2,6 @@ package com.nhnacademy.team4.projectapi.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.team4.projectapi.dto.task.TaskPostDTO;
-import com.nhnacademy.team4.projectapi.dto.task.TaskTitleListDTO;
 import com.nhnacademy.team4.projectapi.dto.task.TaskUpdateDTO;
 import com.nhnacademy.team4.projectapi.entity.Project;
 import com.nhnacademy.team4.projectapi.entity.Task;
@@ -18,14 +17,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Arrays;
-import java.util.List;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -64,7 +59,7 @@ class TaskControllerTest {
         given(taskService.createTask(any(TaskPostDTO.class), anyLong())).willReturn(createdTask);
 
         // 테스트 수행
-        mockMvc.perform(post("/projects/{projectId}/tasks", 1L)
+        mockMvc.perform(post("/project-api/projects/{projectId}/tasks", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(taskPostDTO)))
                 .andExpect(status().isCreated());
@@ -90,7 +85,7 @@ class TaskControllerTest {
         given(taskService.getTask(anyLong())).willReturn(task);
 
         // 테스트 수행
-        mockMvc.perform(get("/projects/{projectId}/tasks/{taskId}", 1L, taskId))
+        mockMvc.perform(get("/project-api/projects/{projectId}/tasks/{taskId}", 1L, taskId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.taskId").value(task.getTaskId()))
                 .andExpect(jsonPath("$.title").value(task.getTitle()));
@@ -118,7 +113,7 @@ class TaskControllerTest {
         given(taskService.updateTask(anyLong(), any(TaskUpdateDTO.class))).willReturn(updatedTask);
 
         // 테스트 수행
-        mockMvc.perform(put("/projects/{projectId}/tasks/{taskId}", 1L, taskId)
+        mockMvc.perform(put("/project-api/projects/{projectId}/tasks/{taskId}", 1L, taskId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(taskDTO)))
                 .andExpect(status().isOk())
@@ -132,7 +127,7 @@ class TaskControllerTest {
         Long taskId = 1L;
 
         // 테스트 수행
-        mockMvc.perform(delete("/projects/{projectId}/tasks/{taskId}", 1L, taskId))
+        mockMvc.perform(delete("/project-api/projects/{projectId}/tasks/{taskId}", 1L, taskId))
                 .andExpect(status().isOk());
     }
 }
