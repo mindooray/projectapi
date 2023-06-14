@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.team4.projectapi.dto.project.AccountIdDTO;
 import com.nhnacademy.team4.projectapi.dto.project.ProjectGetDTO;
 import com.nhnacademy.team4.projectapi.dto.project.ProjectPostDTO;
+import com.nhnacademy.team4.projectapi.dto.project.ProjectUpdateDTO;
 import com.nhnacademy.team4.projectapi.dto.tag.TagGetDTO;
 import com.nhnacademy.team4.projectapi.entity.AccountProject;
 import com.nhnacademy.team4.projectapi.entity.Project;
@@ -221,7 +222,7 @@ class ProjectControllerTest {
         updatedProject.setDescription(projectGetDTO.getDescription());
         updatedProject.setCreateDate(LocalDateTime.now());
 
-        given(projectService.updateProject(anyLong(), any(ProjectGetDTO.class))).willReturn(updatedProject);
+        given(projectService.updateProject(anyLong(), any(ProjectUpdateDTO.class))).willReturn(updatedProject);
 
         // 테스트 수행
         mockMvc.perform(put("/projects/{projectId}", projectId)

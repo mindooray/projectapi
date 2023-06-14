@@ -1,9 +1,8 @@
 package com.nhnacademy.team4.projectapi.service;
 
 import com.nhnacademy.team4.projectapi.dto.project.AccountIdDTO;
-import com.nhnacademy.team4.projectapi.dto.project.ProjectGetDTO;
 import com.nhnacademy.team4.projectapi.dto.project.ProjectPostDTO;
-import com.nhnacademy.team4.projectapi.dto.tag.TagDTO;
+import com.nhnacademy.team4.projectapi.dto.project.ProjectUpdateDTO;
 import com.nhnacademy.team4.projectapi.dto.tag.TagGetDTO;
 import com.nhnacademy.team4.projectapi.entity.AccountProject;
 import com.nhnacademy.team4.projectapi.entity.Project;
@@ -13,7 +12,6 @@ import com.nhnacademy.team4.projectapi.entity.type.ProjectStatus;
 import com.nhnacademy.team4.projectapi.repository.ProjectRepository;
 import com.nhnacademy.team4.projectapi.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,11 +52,11 @@ public class ProjectService {
     }
 
     @Transactional
-    public Project updateProject(Long projectId, ProjectGetDTO projectGetDTO) {
+    public Project updateProject(Long projectId, ProjectUpdateDTO projectUpdateDTO) {
         Project existingProject = getProject(projectId);
-        existingProject.setTitle(projectGetDTO.getTitle());
-//        existingProject.setStatus(ProjectStatus.valueOf(projectDTO.getStatus()));
-        existingProject.setDescription(projectGetDTO.getDescription());
+        existingProject.setTitle(projectUpdateDTO.getTitle());
+        existingProject.setStatus(ProjectStatus.valueOf(projectUpdateDTO.getStatus()));
+        existingProject.setDescription(projectUpdateDTO.getDescription());
 
         return projectRepository.save(existingProject);
     }
@@ -83,9 +81,6 @@ public class ProjectService {
                 .collect(Collectors.toList());
     }
 
-//    public void deleteProject(Long projectId) {
-//        Project existingProject = getProject(projectId);
-//        projectRepository.delete(existingProject);
-//    }
+
 
 }
