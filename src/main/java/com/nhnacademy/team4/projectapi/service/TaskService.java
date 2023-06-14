@@ -7,6 +7,7 @@ import com.nhnacademy.team4.projectapi.entity.Project;
 import com.nhnacademy.team4.projectapi.entity.Tag;
 import com.nhnacademy.team4.projectapi.entity.Task;
 import com.nhnacademy.team4.projectapi.entity.TaskTag;
+import com.nhnacademy.team4.projectapi.entity.type.TaskPriority;
 import com.nhnacademy.team4.projectapi.entity.type.TaskStatus;
 import com.nhnacademy.team4.projectapi.repository.ProjectRepository;
 import com.nhnacademy.team4.projectapi.repository.TagRepository;
@@ -40,7 +41,10 @@ public class TaskService {
         task.setProject(project);
         task.setTitle(taskDTO.getTitle());
         task.setContent(taskDTO.getContent());
+
         task.setStatus(TaskStatus.IN_PROGRESS);
+        task.setPriority(TaskPriority.MEDIUM);
+
         task.setCreateDate(LocalDateTime.now());
 
         if(Objects.nonNull(taskDTO.getTags()) && !taskDTO.getTags().isEmpty()) {

@@ -9,6 +9,7 @@ import com.nhnacademy.team4.projectapi.entity.Task;
 import com.nhnacademy.team4.projectapi.service.MilestoneService;
 import com.nhnacademy.team4.projectapi.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,17 +30,18 @@ public class TaskController {
 
     @GetMapping
     public ResponseEntity<List<TaskTitleListDTO>> getAllTask() {
-        return ResponseEntity.ok().body(taskService.getAllTask());
+        List<TaskTitleListDTO> taskTitleListDTO = taskService.getAllTask();
+        return ResponseEntity.ok().body(taskTitleListDTO);
     }
 
     @PostMapping
-    public ResponseEntity<TaskPostDTO> postTask(@RequestBody TaskPostDTO taskPostDTO, @PathVariable Long projectId) {
+    public ResponseEntity<Void> postTask(@RequestBody TaskPostDTO taskPostDTO, @PathVariable Long projectId) {
         Task task = taskService.createTask(taskPostDTO, projectId);
         if (taskPostDTO.getMilestone().equals("yes")) {
             MilestoneDTO milestoneDTO = MilestoneDTO.taskPostDtoToMilestoneDTO(taskPostDTO, task.getTaskId());
             milestoneService.createMilestone(milestoneDTO);
         }
-        return ResponseEntity.ok().body(taskPostDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/{taskId}")
