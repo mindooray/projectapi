@@ -18,12 +18,9 @@ public class TaskPostDTO {
     private String title;
     private String content;
     private String milestone;
+    private String milestoneName;
     private LocalDate milestoneStartDate;
     private LocalDate milestoneEndDate;
     private Boolean deadlineStatus;
     private List<Long> tags;
-
-    public static TaskPostDTO taskToTaskPostDTO(Task task,String milestone,LocalDate milestoneStartDate,LocalDate milestoneEndDate,Boolean deadlineStatus, List<Long> tags) {
-        return new TaskPostDTO(task.getAccountId(), task.getTitle(), task.getContent(), milestone, milestoneStartDate, milestoneEndDate, deadlineStatus,tags);
-    }
 }

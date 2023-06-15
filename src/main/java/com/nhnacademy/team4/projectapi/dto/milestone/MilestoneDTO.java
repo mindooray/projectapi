@@ -37,7 +37,7 @@ public class MilestoneDTO {
     public static MilestoneDTO taskPostDtoToMilestoneDTO(TaskPostDTO taskPostDTO, Long taskId){
         return new MilestoneDTO(
                 taskId,
-                taskPostDTO.getMilestone(),
+                taskPostDTO.getMilestoneName(),
                 taskPostDTO.getMilestoneStartDate(),
                 taskPostDTO.getMilestoneEndDate(),
                 taskPostDTO.getDeadlineStatus()

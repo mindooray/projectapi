@@ -17,8 +17,6 @@ public class MilestoneService {
     private final MilestoneRepository milestoneRepository;
     private final TaskRepository taskRepository;
 
-
-
     @Transactional
     public Milestone createMilestone(MilestoneDTO milestoneDTO) {
         Milestone milestone = new Milestone();
@@ -29,11 +27,10 @@ public class MilestoneService {
         milestone.setStartDate(milestoneDTO.getStartDate());
         milestone.setFinishDate(milestoneDTO.getFinishDate());
         milestone.setDeadlineStatus(milestoneDTO.isDeadlineStatus());
+
         return milestoneRepository.save(milestone);
     }
 
-
-    @Transactional
     public Milestone getMilestone(Long getTaskId) {
         return milestoneRepository.findById(getTaskId)
                 .orElseThrow(() -> new IllegalArgumentException("Milestone not found with ID: " + getTaskId));

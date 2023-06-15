@@ -31,7 +31,7 @@ public class MilestoneController {
         return ResponseEntity.ok().body(MilestoneDTO.milestoneToMilestoneDTO(milestone));
     }
 
-    @PutMapping()
+    @PutMapping
     public ResponseEntity<MilestoneDTO> updateMilestone(@PathVariable Long taskId, @RequestBody MilestoneDTO milestoneDTO) {
         Milestone updatedMilestone = milestoneService.updateMilestone(taskId, milestoneDTO);
         return ResponseEntity.ok().body(MilestoneDTO.milestoneToMilestoneDTO(updatedMilestone));
