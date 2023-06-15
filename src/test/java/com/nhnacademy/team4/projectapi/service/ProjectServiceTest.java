@@ -327,7 +327,6 @@ class ProjectServiceTest {
 
         // Mock 객체 및 응답 값 설정
         given(projectRepository.findById(anyLong())).willReturn(Optional.of(project));
-        given(accountProjectRepository.saveAllAndFlush(anyList())).willReturn(accountProjectList);
 
         // 테스트 수행
         ProjectAccountPostDTO projectAccountPostDTO = new ProjectAccountPostDTO();
