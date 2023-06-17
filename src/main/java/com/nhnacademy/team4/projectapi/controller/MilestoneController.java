@@ -4,11 +4,12 @@ import com.nhnacademy.team4.projectapi.dto.milestone.MilestoneDTO;
 import com.nhnacademy.team4.projectapi.entity.Milestone;
 import com.nhnacademy.team4.projectapi.service.MilestoneService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/tasks/{taskId}/milestones")
+@RequestMapping("/project-api/tasks/{taskId}/milestones")
 public class MilestoneController {
 
     private final MilestoneService milestoneService;
@@ -19,9 +20,9 @@ public class MilestoneController {
     }
 
     @PostMapping
-    public ResponseEntity<MilestoneDTO> createMilestone(@PathVariable Long taskId, @RequestBody MilestoneDTO milestoneDTO) {
-        Milestone createdMilestone = milestoneService.createMilestone(taskId,milestoneDTO);
-        return ResponseEntity.ok().body(MilestoneDTO.milestoneToMilestoneDTO(createdMilestone));
+    public ResponseEntity<Void> createMilestone(@PathVariable Long taskId, @RequestBody MilestoneDTO milestoneDTO) {
+        milestoneService.createMilestone(milestoneDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping
@@ -30,14 +31,14 @@ public class MilestoneController {
         return ResponseEntity.ok().body(MilestoneDTO.milestoneToMilestoneDTO(milestone));
     }
 
-    @PutMapping()
+    @PutMapping
     public ResponseEntity<MilestoneDTO> updateMilestone(@PathVariable Long taskId, @RequestBody MilestoneDTO milestoneDTO) {
-        Milestone updatedMilestone = milestoneService.updateMilestone(taskId,  milestoneDTO);
+        Milestone updatedMilestone = milestoneService.updateMilestone(taskId, milestoneDTO);
         return ResponseEntity.ok().body(MilestoneDTO.milestoneToMilestoneDTO(updatedMilestone));
     }
 
-    @DeleteMapping("/{taskId}")
-    public void deleteMilestone(@PathVariable Long taskId ) {
+    @DeleteMapping
+    public void deleteMilestone(@PathVariable Long taskId) {
         milestoneService.deleteMilestone(taskId);
     }
 }

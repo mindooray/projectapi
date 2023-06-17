@@ -1,36 +1,47 @@
 package com.nhnacademy.team4.projectapi.controller;
 
+import com.nhnacademy.team4.projectapi.dto.milestone.MilestoneDTO;
 import com.nhnacademy.team4.projectapi.dto.task.TaskGetDTO;
 import com.nhnacademy.team4.projectapi.dto.task.TaskPostDTO;
 import com.nhnacademy.team4.projectapi.dto.task.TaskTitleListDTO;
 import com.nhnacademy.team4.projectapi.dto.task.TaskUpdateDTO;
 import com.nhnacademy.team4.projectapi.entity.Task;
+import com.nhnacademy.team4.projectapi.service.MilestoneService;
 import com.nhnacademy.team4.projectapi.service.TaskService;
-import org.hibernate.annotations.Parameter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/projects/{project.id}/tasks")
+@RequiredArgsConstructor
+@RequestMapping("/project-api/projects/{projectId}/tasks")
 public class TaskController {
 
     private final TaskService taskService;
-
-    @Autowired
-    public TaskController(TaskService taskService) {
-        this.taskService = taskService;
-    }
+    private final MilestoneService milestoneService;
 
     @GetMapping
-    public ResponseEntity<List<TaskTitleListDTO>> getAllTask() {
-        return ResponseEntity.ok().body(taskService.getAllTask());
+    public ResponseEntity<List<TaskTitleListDTO>> getAllTask(
+            @PathVariable("projectId") Long projectId
+    ) {
+        return ResponseEntity.ok().body(taskService.getProjectTasks(projectId));
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> postTask(@RequestBody TaskPostDTO taskPostDTO, @PathVariable Long projectId) {
+        Task task = taskService.createTask(taskPostDTO, projectId);
+        if (taskPostDTO.getMilestone().equals("yes")) {
+            MilestoneDTO milestoneDTO = MilestoneDTO.taskPostDtoToMilestoneDTO(taskPostDTO, task.getTaskId());
+            milestoneService.createMilestone(milestoneDTO);
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/{taskId}")
-    public ResponseEntity<TaskGetDTO>  getTask(@PathVariable Long taskId) {
+    public ResponseEntity<TaskGetDTO> getTask(@PathVariable Long taskId) {
         Task task = taskService.getTask(taskId);
         return ResponseEntity.ok(TaskGetDTO.taskToTaskGetDTO(task));
     }
@@ -40,14 +51,10 @@ public class TaskController {
         return taskService.updateTask(taskId, taskDTO);
     }
 
-    @PostMapping("/tasks")
-    public ResponseEntity<TaskPostDTO> postTask( @RequestBody TaskPostDTO taskPostDTO){
-        Task task = taskService.createTask( taskPostDTO);
-        return ResponseEntity.ok().body(TaskPostDTO.taskToTaskPostDTO(task));
-    }
 
     @DeleteMapping("/{taskId}")
-    public void deleteTask(@PathVariable Long taskId) {
+    public ResponseEntity<Void> deleteTask(@PathVariable Long taskId) {
         taskService.deleteTask(taskId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

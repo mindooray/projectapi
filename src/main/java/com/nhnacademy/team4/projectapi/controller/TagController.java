@@ -1,13 +1,17 @@
 package com.nhnacademy.team4.projectapi.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import com.nhnacademy.team4.projectapi.entity.Tag;
 import com.nhnacademy.team4.projectapi.dto.tag.TagDTO;
+import com.nhnacademy.team4.projectapi.dto.tag.TagPostDTO;
+import com.nhnacademy.team4.projectapi.entity.Tag;
 import com.nhnacademy.team4.projectapi.service.TagService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/tags")
+@RequestMapping("/project-api")
+
 public class TagController {
 
     private final TagService tagService;
@@ -17,26 +21,26 @@ public class TagController {
         this.tagService = tagService;
     }
 
-    @PostMapping
-    public TagDTO createTag(@RequestBody TagDTO tagDTO) {
-        Tag createdTag = tagService.createTag(tagDTO);
-        return new TagDTO(createdTag.getTagId(), createdTag.getName());
+    @PostMapping("/projects/{projectId}/tags")
+    public ResponseEntity<Void> createTag(
+            @PathVariable("projectId") Long projectId,
+            @RequestBody TagPostDTO tagPostDTO
+    ) {
+        tagService.createProjectTag(projectId, tagPostDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/{tagId}")
-    public TagDTO getTag(@PathVariable Long tagId) {
-        Tag tag = tagService.getTag(tagId);
-        return new TagDTO(tag.getTagId(), tag.getName());
+    @PutMapping("/tags/{tagId}")
+    public ResponseEntity<TagDTO> updateTag(@PathVariable Long tagId, @RequestBody TagPostDTO tagPostDTO) {
+        Tag updatedTag = tagService.updateTag(tagId, tagPostDTO);
+        TagDTO tagDto= new TagDTO(updatedTag.getTagId(), updatedTag.getName());
+        return ResponseEntity.ok().body(tagDto) ;
     }
 
-    @PutMapping("/{tagId}")
-    public TagDTO updateTag(@PathVariable Long tagId, @RequestBody TagDTO tagDTO) {
-        Tag updatedTag = tagService.updateTag(tagId, tagDTO);
-        return new TagDTO(updatedTag.getTagId(), updatedTag.getName());
-    }
+    @DeleteMapping("/tags/{tagId}")
+    public ResponseEntity<Void> deleteTag(@PathVariable Long tagId) {
 
-    @DeleteMapping("/{tagId}")
-    public void deleteTag(@PathVariable Long tagId) {
         tagService.deleteTag(tagId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

@@ -10,8 +10,5 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommentDTO {
-    private long commentId;
-    private String title;
-    private String content;
-    private Long accountId;
+    private Long projectId;
 }

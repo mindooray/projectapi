@@ -2,27 +2,32 @@ package com.nhnacademy.team4.projectapi.service;
 
 import com.nhnacademy.team4.projectapi.dto.milestone.MilestoneDTO;
 import com.nhnacademy.team4.projectapi.entity.Milestone;
+import com.nhnacademy.team4.projectapi.entity.Task;
 import com.nhnacademy.team4.projectapi.repository.MilestoneRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.nhnacademy.team4.projectapi.repository.TaskRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MilestoneService {
 
     private final MilestoneRepository milestoneRepository;
+    private final TaskRepository taskRepository;
 
-    @Autowired
-    public MilestoneService(MilestoneRepository milestoneRepository) {
-        this.milestoneRepository = milestoneRepository;
-    }
-
-    public Milestone createMilestone(Long taskId,MilestoneDTO milestoneDTO) {
+    @Transactional
+    public Milestone createMilestone(MilestoneDTO milestoneDTO) {
         Milestone milestone = new Milestone();
-        milestone.setTaskId(taskId);
+        Task task = taskRepository.findById(milestoneDTO.getTaskId())
+                .orElseThrow();
+        milestone.setTask(task);
         milestone.setName(milestoneDTO.getName());
         milestone.setStartDate(milestoneDTO.getStartDate());
         milestone.setFinishDate(milestoneDTO.getFinishDate());
         milestone.setDeadlineStatus(milestoneDTO.isDeadlineStatus());
+
         return milestoneRepository.save(milestone);
     }
 
@@ -31,6 +36,7 @@ public class MilestoneService {
                 .orElseThrow(() -> new IllegalArgumentException("Milestone not found with ID: " + getTaskId));
     }
 
+    @Transactional
     public Milestone updateMilestone(Long getTaskId, MilestoneDTO milestoneDTO) {
         Milestone existingMilestone = getMilestone(getTaskId);
         existingMilestone.setName(milestoneDTO.getName());
@@ -40,6 +46,7 @@ public class MilestoneService {
         return milestoneRepository.save(existingMilestone);
     }
 
+    @Transactional
     public void deleteMilestone(Long getTaskId) {
         Milestone existingMilestone = getMilestone(getTaskId);
         milestoneRepository.delete(existingMilestone);

@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "id")
 @Entity
 @Table(name = "account_project")
 @AllArgsConstructor
@@ -30,9 +30,21 @@ public class AccountProject {
     @Setter
     @EqualsAndHashCode
     @NoArgsConstructor
-    @AllArgsConstructor
     public static class AccountProjectId implements Serializable {
         private Long accountId;
         private Long projectId;
+
+        @Builder
+        public AccountProjectId(Long accountId, Long projectId) {
+            this.accountId = accountId;
+            this.projectId = projectId;
+        }
+    }
+
+    @Builder
+    public AccountProject(Long accountId, Project project, AccountProjectRole role) {
+        this.id = new AccountProjectId(accountId, project.getProjectId());
+        this.project = project;
+        this.role = role;
     }
 }

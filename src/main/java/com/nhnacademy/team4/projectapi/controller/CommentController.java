@@ -1,14 +1,18 @@
 package com.nhnacademy.team4.projectapi.controller;
 
+import com.nhnacademy.team4.projectapi.dto.comment.CommentGetDTO;
+import com.nhnacademy.team4.projectapi.dto.comment.CommentPostDTO;
+import com.nhnacademy.team4.projectapi.dto.comment.CommentUpdateDTO;
 import com.nhnacademy.team4.projectapi.entity.Comment;
 import com.nhnacademy.team4.projectapi.dto.comment.CommentDTO;
 import com.nhnacademy.team4.projectapi.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
-@RequestMapping("/")
+@RequestMapping("/project-api")
 public class CommentController {
 
     private final CommentService commentService;
@@ -19,26 +23,25 @@ public class CommentController {
     }
 
     @GetMapping("/tasks/{taskId}/comments")
-    public List<Comment> getAllComments() {
-        return commentService.getAllComments();
+    public ResponseEntity<List<CommentGetDTO>> getAllComments(
+            @PathVariable("taskId") Long taskId
+    ) {
+        return ResponseEntity.ok().body(commentService.getTaskComments(taskId));
     }
-    @GetMapping("/comments/{commentId}/account")// 이거 뭔가 이상함 체크해보자
-    public long getAccount(@PathVariable Long commentId) {
-        return commentService.getAccount(commentId);
-    }
+
     @PostMapping("/tasks/{taskId}/comments")
-    public CommentDTO createComment(@RequestBody CommentDTO commentDTO,@PathVariable Long taskId) {
-        Comment createdComment = commentService.createComment(commentDTO,taskId);
-        return new CommentDTO(createdComment.getCommentId(), createdComment.getTitle(), createdComment.getContent());
+    public ResponseEntity<CommentDTO> createComment(@RequestBody CommentPostDTO commentPostDTO, @PathVariable Long taskId) {
+        return ResponseEntity.ok().body(commentService.createComment(commentPostDTO,taskId));
     }
 
-    @PutMapping("/{commentId}")
-    public CommentDTO updateComment(@PathVariable Long commentId, @RequestBody CommentDTO commentDTO) {
-        Comment updatedComment = commentService.updateComment(commentId, commentDTO);
-        return new CommentDTO(updatedComment.getCommentId(),updatedComment.getTitle(), updatedComment.getContent());
+    @PatchMapping("/comments/{commentId}")
+    public ResponseEntity<CommentUpdateDTO> updateComment(@PathVariable Long commentId, @RequestBody CommentUpdateDTO commentUpdateDTO) {
+        Comment updatedComment = commentService.updateComment(commentId, commentUpdateDTO);
+        CommentUpdateDTO commentUpdatedDTO =new CommentUpdateDTO(updatedComment.getContent());
+        return ResponseEntity.ok().body(commentUpdatedDTO);
     }
 
-    @DeleteMapping("/{commentId}")
+    @DeleteMapping("/comments/{commentId}")
     public void deleteComment(@PathVariable Long commentId) {
         commentService.deleteComment(commentId);
     }

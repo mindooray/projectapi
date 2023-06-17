@@ -1,4 +1,4 @@
-package com.nhnacademy.team4.projectapi.dto.comment;
+package com.nhnacademy.team4.projectapi.dto.project;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,10 +7,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class CommentPostDTO {
-    private String title;
-    private String content;
+@NoArgsConstructor
+public class AccountIdDTO {
     private Long accountId;
 }
