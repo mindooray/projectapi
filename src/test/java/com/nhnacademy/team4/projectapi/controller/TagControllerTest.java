@@ -17,8 +17,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -47,7 +45,7 @@ class TagControllerTest {
         given(tagService.createProjectTag(anyLong(), any(TagPostDTO.class))).willReturn(createdTag);
 
         // 테스트 수행
-        mockMvc.perform(post("/projects/{projectId}/tags", 1L)
+        mockMvc.perform(post("/project-api/projects/{projectId}/tags", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(tagDTO)))
                 .andExpect(status().isCreated())
@@ -69,7 +67,7 @@ class TagControllerTest {
         given(tagService.updateTag(anyLong(), any(TagPostDTO.class))).willReturn(updatedTag);
 
         // 테스트 수행
-        mockMvc.perform(put("/tags/{tagId}", tagId)
+        mockMvc.perform(put("/project-api/tags/{tagId}", tagId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(tagDTO)))
                 .andExpect(status().isOk())
@@ -84,7 +82,7 @@ class TagControllerTest {
         Long tagId = 1L;
 
         // 테스트 수행
-        mockMvc.perform(delete("/tags/{tagId}", tagId))
+        mockMvc.perform(delete("/project-api/tags/{tagId}", tagId))
                 .andExpect(status().isOk())
                 .andDo(print());
     }

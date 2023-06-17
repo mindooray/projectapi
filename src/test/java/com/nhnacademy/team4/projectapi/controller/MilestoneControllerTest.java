@@ -59,7 +59,7 @@ class MilestoneControllerTest {
 
         // 테스트 수행
 
-        mockMvc.perform(post("/tasks/{taskId}/milestones", taskId)
+        mockMvc.perform(post("/project-api/tasks/{taskId}/milestones", taskId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(milestoneDTO)))
                 .andExpect(status().isCreated())
@@ -89,7 +89,7 @@ class MilestoneControllerTest {
         given(milestoneService.getMilestone(anyLong())).willReturn(milestone);
 
         // 테스트 수행
-        mockMvc.perform(get("/tasks/{taskId}/milestones", 1L))
+        mockMvc.perform(get("/project-api/tasks/{taskId}/milestones", 1L))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(jsonPath("$.taskId").value(milestone.getTaskId()))
@@ -120,7 +120,7 @@ class MilestoneControllerTest {
         given(milestoneService.updateMilestone(anyLong(), any(MilestoneDTO.class))).willReturn(updatedMilestone);
 
         // 테스트 수행
-        mockMvc.perform(put("/tasks/{taskId}/milestones", taskId)
+        mockMvc.perform(put("/project-api/tasks/{taskId}/milestones", taskId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(milestoneDTO)))
                 .andExpect(status().isOk())
@@ -139,7 +139,7 @@ class MilestoneControllerTest {
         Long taskId = 1L;
 
         // 테스트 수행
-        mockMvc.perform(delete("/tasks/{taskId}/milestones", taskId))
+        mockMvc.perform(delete("/project-api/tasks/{taskId}/milestones", taskId))
                 .andExpect(status().isOk())
                 .andDo(print());
     }

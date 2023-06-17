@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -87,8 +88,11 @@ public class ProjectService {
     @Transactional
     public void addProjectAccounts(Long projectId, ProjectAccountPostDTO projectAccountPostDTO) {
         Project project = projectRepository.findById(projectId)
-                .orElseThrow();
+                .orElseThrow(() -> new IllegalArgumentException("Project not found with ID: " + projectId));
+
         List<Long> accountIds = projectAccountPostDTO.getAccountIds();
+        accountIds = Optional.ofNullable(accountIds)
+                .orElseThrow(() -> new IllegalArgumentException("Account IDs cannot be null"));
 
         List<AccountProject> accountProjectList = accountIds.stream()
                 .map(a -> AccountProject.builder()
@@ -98,13 +102,17 @@ public class ProjectService {
                         .build())
                 .collect(Collectors.toList());
 
+        accountProjectList = Optional.of(accountProjectList)
+                .filter(list -> !list.isEmpty())
+                .orElseThrow(() -> new IllegalArgumentException("Account project list cannot be empty"));
+
         project.addAccountProjects(accountProjectList);
     }
 
     @Transactional
     public void deleteAccountProject(Long projectId, Long accountId) {
         AccountProject accountProjectId = accountProjectRepository.findById(new AccountProject.AccountProjectId(accountId, projectId))
-                .orElseThrow();
+                .orElseThrow(() -> new IllegalArgumentException("Project not found with ID: " + projectId));
 
         accountProjectRepository.delete(accountProjectId);
     }

@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -12,7 +13,7 @@ import java.util.List;
 @EqualsAndHashCode
 @Entity
 @Table(name = "project")
-@NoArgsConstructor
+
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +37,9 @@ public class Project {
             cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE},
             fetch = FetchType.LAZY)
     private List<AccountProject> accountProjectList;
+    public Project() {
+        this.accountProjectList = new ArrayList<>();
+    }
 
     @Builder
     public Project(String title, ProjectStatus status, String description) {
@@ -43,6 +47,7 @@ public class Project {
         this.status = status;
         this.createDate = LocalDateTime.now();
         this.description = description;
+        accountProjectList=new ArrayList<>();
     }
 
     public void addAccountProjects(List<AccountProject> accountProjectList) {
