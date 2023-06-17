@@ -61,13 +61,6 @@ public class ProjectController {
         return ResponseEntity.ok().body(ProjectGetDTO.projectToProjectGetDTO(project));
     }
 
-    /**
-     * # Todo 1
-     *
-     * @param projectId
-     * @param projectAccountPostDTO
-     * @return
-     */
     @PostMapping("/{projectId}/accounts")
     public ResponseEntity<Void> addProjectAccounts(
             @PathVariable("projectId") Long projectId,
@@ -75,6 +68,14 @@ public class ProjectController {
     ) {
         projectService.addProjectAccounts(projectId, projectAccountPostDTO);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{projectId}/role/{accountId}")
+    public ResponseEntity<ProjectRoleDTO> getProjectRole(
+            @PathVariable("projectId") Long projectId,
+            @PathVariable("accountId") Long accountId
+    ) {
+        return ResponseEntity.ok().body(projectService.getProjectRole(projectId, accountId));
     }
 
     @DeleteMapping("/{projectId}/accounts/{accountId}")

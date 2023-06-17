@@ -1,9 +1,6 @@
 package com.nhnacademy.team4.projectapi.service;
 
-import com.nhnacademy.team4.projectapi.dto.project.AccountIdDTO;
-import com.nhnacademy.team4.projectapi.dto.project.ProjectAccountPostDTO;
-import com.nhnacademy.team4.projectapi.dto.project.ProjectPostDTO;
-import com.nhnacademy.team4.projectapi.dto.project.ProjectUpdateDTO;
+import com.nhnacademy.team4.projectapi.dto.project.*;
 import com.nhnacademy.team4.projectapi.dto.tag.TagGetDTO;
 import com.nhnacademy.team4.projectapi.entity.AccountProject;
 import com.nhnacademy.team4.projectapi.entity.Project;
@@ -109,11 +106,20 @@ public class ProjectService {
         project.addAccountProjects(accountProjectList);
     }
 
+
+
     @Transactional
     public void deleteAccountProject(Long projectId, Long accountId) {
         AccountProject accountProjectId = accountProjectRepository.findById(new AccountProject.AccountProjectId(accountId, projectId))
                 .orElseThrow(() -> new IllegalArgumentException("Project not found with ID: " + projectId));
 
         accountProjectRepository.delete(accountProjectId);
+    }
+
+    public ProjectRoleDTO getProjectRole(Long projectId, Long accountId) {
+        AccountProject accountProject = accountProjectRepository.findById(new AccountProject.AccountProjectId(accountId, projectId))
+                .orElseThrow(() -> new IllegalArgumentException("Project not found with ID: " + projectId));
+
+        return new ProjectRoleDTO(accountProject.getRole().toString());
     }
 }

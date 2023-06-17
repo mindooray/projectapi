@@ -233,11 +233,6 @@ class ProjectControllerTest {
                 .andExpect(jsonPath("$.description").value(updatedProject.getDescription()));
     }
 
-
-    /**
-     * # Todo
-     *
-    */
     @Test
     void addProjectAccount() throws Exception {
         // Mock 데이터 설정
